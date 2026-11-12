@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.difp.isoloader</id>
+  <name>ISOLoader</name>
+  <summary>Create bootable USB drives from ISO images</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>A simple Ubuntu desktop app for writing operating system images to USB drives, with target checks and optional SHA-256 read-back verification.</p>
+  </description>
+  <launchable type="desktop-id">isoload-gui.desktop</launchable>
+  <provides><binary>isoload-gui</binary></provides>
+</component>

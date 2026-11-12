@@ -3,3 +3,4 @@
 *.keystore
 *.idsig
 .DS_Store
+ubuntu/pkgroot/

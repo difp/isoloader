@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=ISOLoader
+Comment=Create bootable USB drives from ISO images
+Exec=isoload-gui
+Icon=drive-removable-media
+Terminal=false
+Categories=Utility;System;
+Keywords=ISO;USB;bootable;flasher;

@@ -3,7 +3,7 @@ use std::io::{self, Read, Seek, SeekFrom, Write};
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use clap::{Parser, Subcommand};
 use console::style;
 use indicatif::{ProgressBar, ProgressStyle};
@@ -231,14 +231,41 @@ fn flash_image(
         .with_context(|| "Failed to get image file size")?
         .len();
 
-    println!("{}", style("====================================================").bold());
-    println!("{}", style("             RUFUS-RUST USB FLASHER                 ").bold().green());
-    println!("{}", style("====================================================").bold());
-    println!("{}: {}", style("Source Image:").bold(), image_path.display());
-    println!("{}: {}", style("Image Size:  ").bold(), format_bytes(img_size));
-    println!("{}: {}", style("Target Drive:").bold(), drive_path.display());
+    println!(
+        "{}",
+        style("====================================================").bold()
+    );
+    println!(
+        "{}",
+        style("             RUFUS-RUST USB FLASHER                 ")
+            .bold()
+            .green()
+    );
+    println!(
+        "{}",
+        style("====================================================").bold()
+    );
+    println!(
+        "{}: {}",
+        style("Source Image:").bold(),
+        image_path.display()
+    );
+    println!(
+        "{}: {}",
+        style("Image Size:  ").bold(),
+        format_bytes(img_size)
+    );
+    println!(
+        "{}: {}",
+        style("Target Drive:").bold(),
+        drive_path.display()
+    );
     println!("{}: {} MiB", style("Buffer Size: ").bold(), block_size_mb);
-    println!("{}: {}", style("Verification:").bold(), if verify { "Enabled" } else { "Disabled" });
+    println!(
+        "{}: {}",
+        style("Verification:").bold(),
+        if verify { "Enabled" } else { "Disabled" }
+    );
     println!();
 
     // Extra safety warning
@@ -271,7 +298,10 @@ fn flash_image(
             )
         })?;
 
-    println!("\n{}", style(">>> Writing image to device...").cyan().bold());
+    println!(
+        "\n{}",
+        style(">>> Writing image to device...").cyan().bold()
+    );
 
     let buf_size = block_size_mb * 1024 * 1024;
     let mut buffer = vec![0u8; buf_size];
@@ -317,14 +347,20 @@ fn flash_image(
 
     // Optional Verification stage
     if verify {
-        println!("\n{}", style(">>> Verifying data integrity...").cyan().bold());
+        println!(
+            "\n{}",
+            style(">>> Verifying data integrity...").cyan().bold()
+        );
         img_file.seek(SeekFrom::Start(0))?;
 
         println!("Calculating image SHA256...");
         let img_hash = compute_sha256(image_path, Some(img_size))?;
         println!("Image Checksum:  {}", style(&img_hash).yellow());
 
-        println!("Calculating drive SHA256 (first {})...", format_bytes(img_size));
+        println!(
+            "Calculating drive SHA256 (first {})...",
+            format_bytes(img_size)
+        );
         let drive_hash = compute_sha256(drive_path, Some(img_size))?;
         println!("Drive Checksum:  {}", style(&drive_hash).yellow());
 
@@ -332,14 +368,19 @@ fn flash_image(
             println!(
                 "\n{} {}",
                 style("✔").green().bold(),
-                style("Checksum verification passed! USB is ready and bootable.").green().bold()
+                style("Checksum verification passed! USB is ready and bootable.")
+                    .green()
+                    .bold()
             );
         } else {
             bail!("Checksum mismatch! Drive content does not match the image. Please re-flash.");
         }
     }
 
-    println!("\n{}", style("You can now safely unplug the USB drive.").bold());
+    println!(
+        "\n{}",
+        style("You can now safely unplug the USB drive.").bold()
+    );
     Ok(())
 }
 
@@ -348,7 +389,10 @@ fn main() -> Result<()> {
 
     match cli.command {
         Commands::List => {
-            println!("{}", style("Discovered Block Devices / Drives:").bold().cyan());
+            println!(
+                "{}",
+                style("Discovered Block Devices / Drives:").bold().cyan()
+            );
             let drives = list_drives()?;
             if drives.is_empty() {
                 println!("No devices detected.");
