@@ -1,0 +1,5 @@
+**/target/
+**/build/
+*.keystore
+*.idsig
+.DS_Store
